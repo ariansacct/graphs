@@ -119,4 +119,24 @@ public class Graph {
 
 	}
 	
+	public void printConnectedComponents() {
+		Set<List<Vertex>> cc = computeConnectedComponents();
+		for (List<Vertex> list : cc) {
+			for (Vertex vertex : list) {
+				System.out.print(vertex + " ");
+			}
+			System.out.println();
+		}
+	}
+	
+	public boolean areConnected(Vertex u, Vertex v) {
+		BreadthFirstSearch bfs = new BreadthFirstSearch(this);
+		List<Vertex> verticesReachable = bfs.perform(u);
+		for (Vertex vertex : verticesReachable) {
+			if (v.equals(vertex))
+				return true;
+		}
+		return false;
+	}
+	
 }
