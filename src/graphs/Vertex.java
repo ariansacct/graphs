@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Vertex {
-	int label;
+	String label;
 	List<Edge> incidentEdges;
 	int distanceFromSource;
 	boolean explored;
@@ -19,11 +19,11 @@ public class Vertex {
 		return "Vertex " + label;
 	}
 	
-	public int getLabel() {
+	public String getLabel() {
 		return label;
 	}
 
-	public Vertex(int label) {
+	public Vertex(String label) {
 		this.label = label;
 		incidentEdges = new ArrayList<Edge>();
 		distanceFromSource = Integer.MAX_VALUE;

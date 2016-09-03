@@ -7,12 +7,12 @@ import java.util.Stack;
 
 public class DepthFirstSearch {
 	Graph graph;
-	List<Vertex> explored;
+	List<Vertex> exploredVertices;
 	Stack<Vertex> stack;
 	
 	public DepthFirstSearch(Graph graph) {
 		this.graph = graph;
-		explored = new ArrayList<Vertex>();
+		exploredVertices = new ArrayList<Vertex>();
 		stack = new Stack<Vertex>();
 	}
 	
@@ -21,6 +21,22 @@ public class DepthFirstSearch {
 		int random = new Random().nextInt(vertices.size());
 		Vertex startingVertex = vertices.get(random);
 		perform(startingVertex);
+	}
+	
+	public void performRecursive() {
+		List<Vertex> vertices = graph.getVertices();
+		int random = new Random().nextInt(vertices.size());
+		Vertex startingVertex = vertices.get(random);
+		performRecursive(startingVertex);
+	}
+	
+	public void performRecursive(Vertex startingVertex) {
+		startingVertex.markAsExplored();
+		exploredVertices.add(startingVertex);
+		for (Vertex neighbour : startingVertex.getNeighbours()) {
+			if (! neighbour.explored)
+				performRecursive(neighbour);
+		}
 	}
 
 	public List<Vertex> perform(Vertex startingVertex) {
@@ -32,7 +48,6 @@ public class DepthFirstSearch {
 		while (! stack.isEmpty()) {
 			Vertex frontVertex = stack.pop();
 			for (Vertex neighbour : frontVertex.getNeighbours()) {
-//				if (neighbour.explored == false) {
 				if (! exploredVertices.contains(neighbour)) {
 					neighbour.markAsExplored();
 					neighbour.setDistance(frontVertex.distanceFromSource + 1);

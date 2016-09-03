@@ -31,27 +31,69 @@ public class Graph {
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
 			String[] tokens = line.split("\\s+");
-			int uLabel = Integer.valueOf(tokens[0]);
+			String uLabel = tokens[0];
 			Vertex u = this.find(uLabel);
 			if (u == null) {
-				u = this.addVertex(Integer.valueOf(tokens[0]));
+				u = this.addVertex(tokens[0]);
 			}
-
 			for (int i = 1; i < tokens.length; i++) {
-				
-				int vLabel = Integer.valueOf(tokens[i]);
+
+				String vLabel = tokens[i];
 				Vertex v = this.find(vLabel);
 				if (v == null) {
 					v = this.addVertex(vLabel);
 				}
-				
+
 				if (! edgeExists(u, v))
 					this.addEdge(u, v);
-				
+
 			}
 		}
 		scanner.close();
-		System.out.println("Graph with " + this.vertices.size() + " vertices and " + this.edges.size() + " edges.");
+	}
+
+//	public Graph(String filename) throws FileNotFoundException {
+//		vertices = new ArrayList<Vertex>();
+//		edges = new ArrayList<Edge>();
+//		File file = new File(filename);
+//		FileReader fileReader = new FileReader(file);
+//		BufferedReader bufferedReader = new BufferedReader(fileReader);
+//		Scanner scanner = new Scanner(bufferedReader);
+//		while (scanner.hasNextLine()) {
+//			String line = scanner.nextLine();
+//			String[] tokens = line.split("\\s+");
+//			int uLabel = Integer.valueOf(tokens[0]);
+//			Vertex u = this.find(uLabel);
+//			if (u == null) {
+//				u = this.addVertex(Integer.valueOf(tokens[0]));
+//			}
+//
+//			for (int i = 1; i < tokens.length; i++) {
+//
+//				int vLabel = Integer.valueOf(tokens[i]);
+//				Vertex v = this.find(vLabel);
+//				if (v == null) {
+//					v = this.addVertex(vLabel);
+//				}
+//
+//				if (! edgeExists(u, v))
+//					this.addEdge(u, v);
+//
+//			}
+//		}
+//		scanner.close();
+//		System.out.println("Graph with " + this.vertices.size() + " vertices and " + this.edges.size() + " edges.");
+//	}
+	
+	public Graph reverseEdges() {
+		List<Vertex> newVertices = new ArrayList<Vertex>();
+		for (Vertex vertex : vertices) {
+			newVertices.add(new Vertex(vertex.label));
+		}
+		for (Vertex vertex : newVertices) {
+			
+		}
+		return null;
 	}
 
 	private boolean edgeExists(Vertex u, Vertex v) {
@@ -62,16 +104,16 @@ public class Graph {
 		return false;
 	}
 
-	public boolean contains(int vertexLabel) {
+	public boolean contains(String vertexLabel) {
 		for (Vertex vertex : vertices) {
-			if (vertex.getLabel() == vertexLabel) {
+			if (vertex.getLabel().equals(vertexLabel)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public Vertex addVertex(int label) {
+	public Vertex addVertex(String label) {
 		Vertex vertex = new Vertex(label);
 		vertices.add(vertex);
 		return vertex;
@@ -84,9 +126,9 @@ public class Graph {
 		v.addIncidentEdge(edge);
 	}
 
-	public Vertex find(int label) {
+	public Vertex find(String label) {
 		for (Vertex vertex : vertices) {
-			if (vertex.getLabel() == label) {
+			if (vertex.getLabel().equals(label)) {
 				return vertex;
 			}
 		}
@@ -118,7 +160,7 @@ public class Graph {
 		return allExploredVertices;
 
 	}
-	
+
 	public void printConnectedComponents() {
 		Set<List<Vertex>> cc = computeConnectedComponents();
 		for (List<Vertex> list : cc) {
@@ -128,7 +170,7 @@ public class Graph {
 			System.out.println();
 		}
 	}
-	
+
 	public boolean areConnected(Vertex u, Vertex v) {
 		BreadthFirstSearch bfs = new BreadthFirstSearch(this);
 		List<Vertex> verticesReachable = bfs.perform(u);
@@ -138,5 +180,5 @@ public class Graph {
 		}
 		return false;
 	}
-	
+
 }

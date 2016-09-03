@@ -20,7 +20,7 @@ public class TopologicalSort {
 		for (Vertex vertex : vertices) {
 			if (! vertices.contains(vertex)) {
 				explored = dfs.perform(vertex);
-				asasxasxa
+				//asasxasxa
 			}
 		}
 	}
