@@ -52,46 +52,45 @@ public class Graph {
 		scanner.close();
 	}
 
-//	public Graph(String filename) throws FileNotFoundException {
-//		vertices = new ArrayList<Vertex>();
-//		edges = new ArrayList<Edge>();
-//		File file = new File(filename);
-//		FileReader fileReader = new FileReader(file);
-//		BufferedReader bufferedReader = new BufferedReader(fileReader);
-//		Scanner scanner = new Scanner(bufferedReader);
-//		while (scanner.hasNextLine()) {
-//			String line = scanner.nextLine();
-//			String[] tokens = line.split("\\s+");
-//			int uLabel = Integer.valueOf(tokens[0]);
-//			Vertex u = this.find(uLabel);
-//			if (u == null) {
-//				u = this.addVertex(Integer.valueOf(tokens[0]));
-//			}
-//
-//			for (int i = 1; i < tokens.length; i++) {
-//
-//				int vLabel = Integer.valueOf(tokens[i]);
-//				Vertex v = this.find(vLabel);
-//				if (v == null) {
-//					v = this.addVertex(vLabel);
-//				}
-//
+	public Graph(String filename, boolean isWeighted) throws FileNotFoundException {
+		vertices = new ArrayList<Vertex>();
+		edges = new ArrayList<Edge>();
+		File file = new File(filename);
+		FileReader fileReader = new FileReader(file);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		Scanner scanner = new Scanner(bufferedReader);
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			String[] tokens = line.split("\\s+");
+			String uLabel = tokens[0];
+			Vertex u = this.find(uLabel);
+			if (u == null) {
+				u = this.addVertex(tokens[0]);
+			}
+			for (int i = 1; i < tokens.length; i = i + 2) {
+				String vLabel = tokens[i];
+				Vertex v = this.find(vLabel);
+				if (v == null) {
+					v = this.addVertex(vLabel);
+				}
+				
+				// warning: not true for directed graphs
 //				if (! edgeExists(u, v))
 //					this.addEdge(u, v);
-//
-//			}
-//		}
-//		scanner.close();
-//		System.out.println("Graph with " + this.vertices.size() + " vertices and " + this.edges.size() + " edges.");
-//	}
-	
+				this.addWeightedDirectedEdge(u, v, Double.valueOf(tokens[i + 1]));
+
+			}
+		}
+		scanner.close();
+	}
+
 	public Graph reverseEdges() {
 		List<Vertex> newVertices = new ArrayList<Vertex>();
 		for (Vertex vertex : vertices) {
 			newVertices.add(new Vertex(vertex.label));
 		}
 		for (Vertex vertex : newVertices) {
-			
+
 		}
 		return null;
 	}
@@ -124,6 +123,12 @@ public class Graph {
 		this.edges.add(edge);
 		u.addIncidentEdge(edge);
 		v.addIncidentEdge(edge);
+	}
+	
+	public void addWeightedDirectedEdge(Vertex u, Vertex v, double weight) {
+		Edge edge = new Edge(u, v, weight);
+		this.edges.add(edge);
+		u.addIncidentEdge(edge);
 	}
 
 	public Vertex find(String label) {

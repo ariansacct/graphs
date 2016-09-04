@@ -43,6 +43,10 @@ public class Vertex {
 		System.out.println("Just explored " + this.toString());
 	}
 	
+	public List<Edge> getIncidentEdges() {
+		return incidentEdges;
+	}
+	
 	public List<Vertex> getNeighbours() {
 		List<Vertex> neighbours = new ArrayList<Vertex>();
 		for (Edge edge : incidentEdges) {
