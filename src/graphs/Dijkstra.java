@@ -46,17 +46,37 @@ public class Dijkstra {
         }
     }
 
-    public void doit(Vertex source) {
-        // initialization
+    public Map<Vertex, Double> execute(Vertex source) {
+        
         Set<Vertex> conquered = new HashSet<>();
-        Set<Vertex> notConquered = new HashSet<>();
-        Map<Vertex, Integer> distances = new HashMap<>();
+        Map<Vertex, Double> distances = new HashMap<>();
         conquered.add(source);
+        int n = graph.getVertices().size();
 
-        // main body
-        while (true) {
-            
+        for (Vertex u : graph.getVertices()) {
+            if (conquered.contains(u)) {
+                Double min = Double.MAX_VALUE;
+                Vertex v = null; // for now
+                for (Edge e : u.incidentEdges) {
+                    if (conquered.contains(e.endpoint1) && !conquered.contains(e.endpoint2)) {
+                        u = e.endpoint1;
+                        v = e.endpoint2;
+                    }
+                    else if (conquered.contains(e.endpoint2) && !conquered.contains(e.endpoint1)) {
+                        u = e.endpoint2;
+                        v = e.endpoint1;
+                    }
+
+                    // if you want the paths as well put the min check in an if
+                    min = Math.min(distances.get(u) + e.weight, min);
+                }
+
+                distances.put(v, min);
+                conquered.add(v);
+            }
         }
+
+        return distances;
     }
 
     public void printDistances() {
